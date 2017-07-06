@@ -14,7 +14,7 @@ export function hash(o) {
     return 0;
   }
   if (typeof o.valueOf === 'function') {
-    o = o.valueOf();
+    o = o.valueOf();          // valueOf: 返回指定对象的原始值。
     if (o === false || o === null || o === undefined) {
       return 0;
     }
@@ -54,10 +54,15 @@ export function hash(o) {
   throw new Error('Value type ' + type + ' cannot be hashed.');
 }
 
+/*
+ * 缓存字条串的hash值
+ */
 function cachedHashString(string) {
   let hash = stringHashCache[string];
   if (hash === undefined) {
     hash = hashString(string);
+
+    // 缓存数量达到最大值，则清空缓存
     if (STRING_HASH_CACHE_SIZE === STRING_HASH_CACHE_MAX_SIZE) {
       STRING_HASH_CACHE_SIZE = 0;
       stringHashCache = {};
@@ -69,6 +74,9 @@ function cachedHashString(string) {
 }
 
 // http://jsperf.com/hashing-strings
+/*
+ * 计算字符串的hash值
+ */
 function hashString(string) {
   // This is the hash from JVM
   // The hash code for a string is computed as
@@ -83,6 +91,9 @@ function hashString(string) {
   return smi(hash);
 }
 
+/*
+ * 设置对象的hash值
+ */
 function hashJSObj(obj) {
   let hash;
   if (usingWeakMap) {
@@ -97,6 +108,7 @@ function hashJSObj(obj) {
     return hash;
   }
 
+  // IE8特殊处理
   if (!canDefineProperty) {
     hash = obj.propertyIsEnumerable && obj.propertyIsEnumerable[UID_HASH_KEY];
     if (hash !== undefined) {
@@ -157,6 +169,9 @@ function hashJSObj(obj) {
 const isExtensible = Object.isExtensible;
 
 // True if Object.defineProperty works as expected. IE8 fails this test.
+/*
+ * Object.defineProperty是否正常，IE8不支持
+ */
 const canDefineProperty = (function() {
   try {
     Object.defineProperty({}, '@', {});
@@ -180,6 +195,7 @@ function getIENodeHash(node) {
 }
 
 // If possible, use a WeakMap.
+// 如果支持WeakMap，则使用WeakMap
 const usingWeakMap = typeof WeakMap === 'function';
 let weakMap;
 if (usingWeakMap) {
@@ -196,4 +212,4 @@ if (typeof Symbol === 'function') {
 const STRING_HASH_CACHE_MIN_STRLEN = 16;
 const STRING_HASH_CACHE_MAX_SIZE = 255;
 let STRING_HASH_CACHE_SIZE = 0;
-let stringHashCache = {};
+let stringHashCache = {};       // 字符串hash值缓存

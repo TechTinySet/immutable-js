@@ -26,3 +26,6 @@ export const imul = typeof Math.imul === 'function' &&
 export function smi(i32) {
   return i32 >>> 1 & 0x40000000 | i32 & 0xbfffffff;
 }
+
+// 1. imul
+//    返回被视为 32 位带符号整数的两个数字的积。

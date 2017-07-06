@@ -13,3 +13,6 @@ export default function createClass(ctor, superClass) {
   }
   ctor.prototype.constructor = ctor;
 }
+
+// 创建类的方式
+// +++

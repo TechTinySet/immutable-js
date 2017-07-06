@@ -15,3 +15,5 @@ export default function assertNotInfinite(size) {
     'Cannot perform this action with an infinite size.'
   );
 }
+
+// +++

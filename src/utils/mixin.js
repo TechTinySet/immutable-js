@@ -19,3 +19,6 @@ export default function mixin(ctor, methods) {
     Object.getOwnPropertySymbols(methods).forEach(keyCopier);
   return ctor;
 }
+
+// 将methods参数中的方法添加到ctor构造函数中
+// +++

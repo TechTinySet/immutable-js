@@ -10,3 +10,6 @@
 export default function isArrayLike(value) {
   return value && typeof value.length === 'number';
 }
+
+// 类数组对象，是否有length属性且类型为number
+// +++
